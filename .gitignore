@@ -1,0 +1,23 @@
+# virtual environment
+venv/
+
+# environment variables (never push credentials)
+.env
+
+# python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# raw data (large file, not needed in repo)
+data/sales_raw.csv
+
+# outputs folder
+outputs/
+
+# VS Code settings
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
