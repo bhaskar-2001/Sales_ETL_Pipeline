@@ -93,7 +93,15 @@ The raw dataset (`10,700 rows`) contains several quality issues that the pipelin
 After cleaning: **~9,882 rows** loaded into the database.
 
 ---
+## Power BI Dashboard
 
+Power BI runs on Windows and connects live to the PostgreSQL...
+
+## Dashboard Preview
+
+![Power BI Dashboard](Images/ETL_sales_dashboard.png)
+
+----
 ## Star Schema
 
 ```
