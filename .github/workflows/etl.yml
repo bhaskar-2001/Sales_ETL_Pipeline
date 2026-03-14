@@ -1,0 +1,52 @@
+name: Run ETL Pipeline
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  run-etl:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: sales_etl
+          POSTGRES_USER: etl_user
+          POSTGRES_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    - name: Run schema setup
+      run: psql -h localhost -U etl_user -d sales_etl -f sql/schema.sql
+      env:
+        PGPASSWORD: ${{ secrets.DB_PASSWORD }}
+
+    - name: Run ETL pipeline
+      run: python scripts/etl_pipeline.py
+      env:
+        DB_HOST: localhost
+        DB_PORT: 5432
+        DB_NAME: sales_etl
+        DB_USER: etl_user
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
