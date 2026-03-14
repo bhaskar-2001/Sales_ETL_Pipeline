@@ -10,7 +10,6 @@ __pycache__/
 *.pyo
 
 # raw data (large file, not needed in repo)
-data/sales_raw.csv
 
 # outputs folder
 outputs/
